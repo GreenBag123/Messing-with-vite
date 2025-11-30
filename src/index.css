@@ -1,0 +1,40 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Clash+Display:wght@500;600;700&family=Press+Start+2P&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-0: #03060f;
+  --bg-1: #070c18;
+  --accent: #7cfbde;
+  --accent-soft: #9cd3ff;
+  --muted: #7a8199;
+  --card: rgba(255, 255, 255, 0.05);
+  --border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at 15% 20%, #13223f 0%, #070c18 32%, #03060f 70%);
+  color: #f8fbff;
+  font-family: "Space Grotesk", "Clash Display", "Inter", system-ui, -apple-system, sans-serif;
+  letter-spacing: 0.01em;
+  cursor: none;
+}
+
+* {
+  cursor: none !important;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Clash Display", "Space Grotesk", "Inter", system-ui, sans-serif;
+  letter-spacing: 0.015em;
+}
+
+::selection {
+  background: #7cfbde;
+  color: #031019;
+}
