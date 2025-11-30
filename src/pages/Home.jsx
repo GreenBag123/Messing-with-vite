@@ -546,6 +546,18 @@ export default function Home() {
     },
   ];
 
+  const fallingWords = useMemo(
+    () =>
+      ["build", "ship", "design", "code", "story", "motion", "impact", "craft", "scale", "launch"].map((word, i) => ({
+        id: i,
+        word,
+        x: (Math.random() - 0.5) * 120,
+        delay: i * 0.2,
+        speed: 4 + Math.random() * 2,
+      })),
+    []
+  );
+
   return (
     <div className="relative w-full h-screen bg-black text-white overflow-hidden" style={{ perspective: "2200px" }}>
       <style>{`
@@ -564,10 +576,30 @@ export default function Home() {
           .glimmer {
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
           }
+
+          .glass-pane {
+            background:
+              linear-gradient(120deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 50%, rgba(255,255,255,0.12) 100%),
+              linear-gradient(90deg, rgba(124,251,222,0.05) 0%, rgba(156,211,255,0.04) 50%, rgba(124,251,222,0.03) 100%);
+            border: 1px solid rgba(255,255,255,0.12);
+            box-shadow:
+              0 25px 80px rgba(0,0,0,0.45),
+              inset 0 0 30px rgba(255,255,255,0.08);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+          }
         `}</style>
 
       <motion.div style={{ y: topY }} className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-[#0f1d3c] via-[#0b1126] to-[#05070f] z-10" />
       <motion.div style={{ y: bottomY }} className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-[#0d2f26] via-[#082016] to-[#05070f] z-10" />
+
+      <div className="absolute inset-0 flex items-center justify-center px-6" style={{ zIndex: 12 }}>
+        <div className="glass-pane w-full max-w-5xl h-[70vh] rounded-[32px] relative overflow-hidden">
+          <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_20%_20%,rgba(124,251,222,0.3),transparent_45%),radial-gradient(circle_at_80%_10%,rgba(156,211,255,0.35),transparent_45%),radial-gradient(circle_at_50%_80%,rgba(255,255,255,0.12),transparent_40%)]" />
+          <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "linear-gradient(135deg, rgba(255,255,255,0.05) 1px, transparent 1px)", backgroundSize: "26px 26px" }} />
+          <div className="absolute inset-0 opacity-12" style={{ background: "linear-gradient(0deg, rgba(255,255,255,0.1) 0%, transparent 30%)" }} />
+        </div>
+      </div>
 
       <motion.div
         style={{
@@ -604,6 +636,31 @@ export default function Home() {
       {glassParticles.map((particle, i) => (
         <GlassParticle key={`particle-${i}`} {...particle} phase={particlePhase} />
       ))}
+
+      <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 25 }}>
+        {fallingWords.map((item) => (
+          <motion.div
+            key={item.id}
+            className="absolute text-white/80 font-semibold text-xl md:text-2xl"
+            style={{ left: `calc(50% + ${item.x}px)` }}
+            initial={{ y: "-20vh", opacity: 0, filter: "blur(6px)" }}
+            animate={{
+              y: "38vh",
+              opacity: [0, 1, 0.2],
+              filter: ["blur(6px)", "blur(0px)", "blur(10px)"],
+            }}
+            transition={{
+              delay: item.delay,
+              duration: item.speed,
+              repeat: Infinity,
+              repeatDelay: 1.5,
+              ease: "easeInOut",
+            }}
+          >
+            {item.word}
+          </motion.div>
+        ))}
+      </div>
 
       <ShatterEffect
         progress={revealPhase}
