@@ -113,8 +113,8 @@ const Crack = ({ angle, length, originX = 0, originY = 0, scale, opacity, isMain
         width: crackWidth,
         height: crackLength,
         background: isMain
-          ? "linear-gradient(to bottom, rgba(255,255,255,0.95), rgba(255,255,255,0.6))"
-          : "linear-gradient(to bottom, rgba(255,255,255,0.8), rgba(255,255,255,0.4))",
+          ? "linear-gradient(to bottom, rgba(255,255,255,0.92) 0%, rgba(124,251,222,0.4) 40%, rgba(255,255,255,0) 100%)"
+          : "linear-gradient(to bottom, rgba(255,255,255,0.7) 0%, rgba(124,251,222,0.25) 50%, rgba(255,255,255,0) 100%)",
         left: `calc(50% + ${originX}px)`,
         top: `calc(50% + ${originY}px)`,
         rotate: angle,
@@ -122,8 +122,10 @@ const Crack = ({ angle, length, originX = 0, originY = 0, scale, opacity, isMain
         transformOrigin: "center top",
         borderRadius: "1px",
         boxShadow: isMain
-          ? "0 0 15px rgba(255,255,255,0.7), 0 0 30px rgba(255,255,255,0.4)"
-          : "0 0 8px rgba(255,255,255,0.6)",
+          ? "0 0 20px rgba(124,251,222,0.45), 0 0 60px rgba(255,255,255,0.35)"
+          : "0 0 12px rgba(124,251,222,0.25)",
+        mixBlendMode: "screen",
+        filter: "drop-shadow(0 0 6px rgba(255,255,255,0.2))",
         zIndex: 14,
       }}
     />
@@ -419,7 +421,7 @@ export default function Home() {
   const pixelPhase = useTransform(scrollProgress, [0.1, 0.55], [0, 1]);
   const pixelIntensity = useTransform(scrollProgress, [0.2, 0.5, 0.7], [0, 1, 0.8]);
 
-  const shatterPhase = useTransform(scrollProgress, [0.65, 0.85, 0.95], [0, 0.5, 1]);
+  const shatterPhase = useTransform(scrollProgress, [0.6, 0.85, 0.95], [0, 0.5, 1]);
   const impactPhase = useTransform(shatterPhase, [0, 0.2], [0, 1]);
   const crackPhase = useTransform(shatterPhase, [0.1, 0.4], [0, 1]);
   const particlePhase = useTransform(shatterPhase, [0.3, 0.7], [0, 1]);
@@ -433,18 +435,18 @@ export default function Home() {
         const screenDiagonal = Math.sqrt(windowSize.width ** 2 + windowSize.height ** 2);
         return {
           angle,
-          length: screenDiagonal * 0.8 + Math.random() * screenDiagonal * 0.4,
+          length: screenDiagonal * 0.7 + Math.random() * screenDiagonal * 0.25,
           originX: 0,
           originY: 0,
           isMain: true,
-          widthBase: 3 + Math.random(),
+          widthBase: 3.5 + Math.random(),
         };
       }),
     [crackCount1, windowSize]
   );
 
   const crackScale1 = useTransform(crackPhase, [0, 1], [0, 1]);
-  const crackOpacity1 = useTransform(particlePhase, [0, 0.3], [1, 0]);
+  const crackOpacity1 = useTransform(particlePhase, [0, 0.3], [0.9, 0.05]);
 
   const crackCount2 = isMobile ? 12 : 20;
   const cracks2 = useMemo(
@@ -456,18 +458,18 @@ export default function Home() {
         const screenDiagonal = Math.sqrt(windowSize.width ** 2 + windowSize.height ** 2);
         return {
           angle: baseCrack.angle + angleVariation,
-          length: screenDiagonal * 0.4 + Math.random() * screenDiagonal * 0.3,
+          length: screenDiagonal * 0.35 + Math.random() * screenDiagonal * 0.25,
           originX: Math.cos((baseCrack.angle * Math.PI) / 180) * distanceFromCenter,
           originY: Math.sin((baseCrack.angle * Math.PI) / 180) * distanceFromCenter,
           isMain: false,
-          widthBase: 1.5 + Math.random(),
+          widthBase: 1.8 + Math.random() * 0.8,
         };
       }),
     [crackCount2, cracks1, windowSize]
   );
 
   const crackScale2 = useTransform(crackPhase, [0, 1], [0, 1]);
-  const crackOpacity2 = useTransform(particlePhase, [0, 0.3], [1, 0]);
+  const crackOpacity2 = useTransform(particlePhase, [0, 0.3], [0.65, 0]);
 
   const glassRadius = useTransform(shatterPhase, [0, 0.65, 1], [150, 90, 1]);
   const glassClip = useMotionTemplate`circle(${glassRadius}% at 50% 50%)`;
