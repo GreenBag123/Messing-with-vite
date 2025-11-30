@@ -469,6 +469,11 @@ export default function Home() {
   const crackScale2 = useTransform(crackPhase, [0, 1], [0, 1]);
   const crackOpacity2 = useTransform(particlePhase, [0, 0.3], [1, 0]);
 
+  const glassRadius = useTransform(shatterPhase, [0, 0.65, 1], [150, 90, 1]);
+  const glassClip = useMotionTemplate`circle(${glassRadius}% at 50% 50%)`;
+  const glassOpacity = useTransform(crackPhase, [0, 1], [1, 0.4]);
+  const glassBlur = useTransform(shatterPhase, [0, 1], ["blur(0px)", "blur(8px)"]);
+
   const glassParticles = useMemo(() => {
     const particles = [];
     const particleCount = isMobile ? 90 : 180;
@@ -593,13 +598,20 @@ export default function Home() {
       <motion.div style={{ y: topY }} className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-[#0f1d3c] via-[#0b1126] to-[#05070f] z-10" />
       <motion.div style={{ y: bottomY }} className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-[#0d2f26] via-[#082016] to-[#05070f] z-10" />
 
-      <div className="absolute inset-0 flex items-center justify-center px-6" style={{ zIndex: 12 }}>
-        <div className="glass-pane w-full max-w-5xl h-[70vh] rounded-[32px] relative overflow-hidden">
-          <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_20%_20%,rgba(124,251,222,0.3),transparent_45%),radial-gradient(circle_at_80%_10%,rgba(156,211,255,0.35),transparent_45%),radial-gradient(circle_at_50%_80%,rgba(255,255,255,0.12),transparent_40%)]" />
-          <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "linear-gradient(135deg, rgba(255,255,255,0.05) 1px, transparent 1px)", backgroundSize: "26px 26px" }} />
-          <div className="absolute inset-0 opacity-12" style={{ background: "linear-gradient(0deg, rgba(255,255,255,0.1) 0%, transparent 30%)" }} />
-        </div>
-      </div>
+      <motion.div
+        className="absolute inset-0 glass-pane overflow-hidden"
+        style={{
+          zIndex: 12,
+          clipPath: glassClip,
+          opacity: glassOpacity,
+          filter: glassBlur,
+        }}
+      >
+        <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_20%_20%,rgba(124,251,222,0.3),transparent_45%),radial-gradient(circle_at_80%_10%,rgba(156,211,255,0.35),transparent_45%),radial-gradient(circle_at_50%_80%,rgba(255,255,255,0.12),transparent_40%)]" />
+        <div className="absolute inset-0 opacity-16" style={{ backgroundImage: "linear-gradient(135deg, rgba(255,255,255,0.05) 1px, transparent 1px)", backgroundSize: "22px 22px" }} />
+        <div className="absolute inset-0 opacity-16" style={{ backgroundImage: "linear-gradient(0deg, rgba(255,255,255,0.08) 0%, transparent 28%)" }} />
+        <div className="absolute inset-0 mix-blend-screen" style={{ background: "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.06) 0%, transparent 60%)" }} />
+      </motion.div>
 
       <motion.div
         style={{
@@ -645,7 +657,7 @@ export default function Home() {
             style={{ left: `calc(50% + ${item.x}px)` }}
             initial={{ y: "-20vh", opacity: 0, filter: "blur(6px)" }}
             animate={{
-              y: "38vh",
+              y: "55vh",
               opacity: [0, 1, 0.2],
               filter: ["blur(6px)", "blur(0px)", "blur(10px)"],
             }}
