@@ -1,16 +1,23 @@
-# React + Vite
+# Messing-with-vite — Portfolio OS
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An experimental portfolio built with Vite + React, Tailwind, and Framer Motion. It pairs a bold neon visual system with interactive scenes (shatter hero, custom cursors, themed sections) and updated content for projects and contact.
 
-Currently, two official plugins are available:
+## Tech
+- React 19, Vite 7
+- Tailwind CSS 3
+- Framer Motion 12
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Scripts
+- `npm run dev` — local dev server
+- `npm run build` — production build
+- `npm run preview` — preview the built output
+- `npm run lint` — lint the project
 
-## React Compiler
+## Structure
+- `src/pages` — Home (shatter reveal), About Me, My Works (Shiproom), Creativity Lab, Productivity, Reach Me Out
+- `src/components/CustomCursor.jsx` — multi-skin cursor with lighter trails
+- `src/contexts` — theme provider + hook
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Notes
+- Debug overlay toggles with `Ctrl+Shift+D`.
+- Cursor is hidden globally; use the on-screen “Cursor styles” toggle to switch variants.
